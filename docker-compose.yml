@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  php-fpm:
+    container_name: pktb_php_fpm
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./www:/var/www/html
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  apache2:
+    container_name: pktb_apache2
+    build:
+      context: ./docker/apache
+    volumes:
+      - ./www:/var/www/html
+    ports:
+      - "8085:80"
+      - "8084:443"
+    depends_on:
+      - php-fpm
+
+  pocketbase:
+    container_name: pktb_pocketbase
+    build:
+      context: ./docker/pocketbase
+    volumes:
+      - ./docker/pocketbase/pb_data:/pb/pb_data
+      - ./docker/pocketbase/pb_migrations:/pb/pb_migrations
+    ports:
+      - "8185:8080"

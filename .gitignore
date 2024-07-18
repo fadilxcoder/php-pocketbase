@@ -1,0 +1,6 @@
+/docker/pocketbase/pb_data/*.*
+/docker/pocketbase/pb_data/*
+!/docker/pocketbase/pb_data/.gitkeep
+/www/logs/*
+!/www/logs/.gitkeep
+.idea/

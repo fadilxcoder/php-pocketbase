@@ -1,0 +1,17 @@
+{
+  "name": "fadil/pocketbase-php",
+  "description": "PHP pocketbase client",
+  "authors": [
+    {
+      "name": "fadilxcoder",
+      "email": "fadilxcoder@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "require": {},
+  "require-dev": {}
+}
