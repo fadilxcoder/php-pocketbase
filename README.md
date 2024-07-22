@@ -16,32 +16,51 @@ $pb = new pb('https://name_of_your_pocketbase_container_name:8080');
 var_dump($pb->collection('countries')->getList());
 ```
 
-***
 ### Crud adapted from js-sdk to php
 
-``` php
-// Returns a paginated records list.
+**Returns a paginated records list.**
+```php
 $pb->collection(collectionIdOrName)->getList(int $page = 1, int $perPage = 30, array $queryParams = []);
+```
 
-// Returns a list with all records batch fetched at once.
+**Returns a list with all records batch fetched at once.**
+```php
 $pb->collection(collectionIdOrName)->getFullList(int $batch = 200, array $queryParams = []);
+```
 
-// Returns the first found record matching the specified filter.
+**Returns the first found record matching the specified filter.**
+```php
 $pb->collection(collectionIdOrName)->getFirstListItem(string $filter, array $queryParams = []);
+```
 
-// Returns a single record by its id.
+**Returns a single record by its id.**
+```php
+
 $pb->collection(collectionIdOrName)->getOne(string $recordId, array $queryParams = []);
+```
 
-// Creates (aka. register) a new record.
+**Creates (aka. register) a new record.**
+```php
 $pb->collection(collectionIdOrName)->create(array  $bodyParams = [], array $queryParams = []);
+```
+```json
+{
+  "name" : "Algerie"
+}
+```
 
-// Updates an existing record by its id.
+**Updates an existing record by its id.**
+```php
 $pb->collection(collectionIdOrName)->update(string $recordId, array $bodyParams = [],array $queryParams = []);
+```
 
-// Deletes a single record by its id.
+**Deletes a single record by its id.**
+```php
 $pb->collection(collectionIdOrName)->delete(string $recordId, array $queryParams = []);
+```
 
-// Custom Logic
+**Custom Logic**
+```php
 $pb->collection(collectionIdOrName)->upload(string $recordId, string $field, string $filepath);
 ```
 ---
@@ -63,28 +82,4 @@ Successfully created file "pb_migrations/1721331064_add_country_code.js"
 ### App
 
 - App : http://localhost:8085/
-- Pocketbase : http://localhost:8185/
-
-```
-
-/var/www/html/index.php:15:
-array (size=7)
-  0 => string 'FRANCE' (length=6)
-  1 => string 'ENGLAND' (length=7)
-  2 => string 'PORTUGAL' (length=8)
-  3 => string 'SPAIN' (length=5)
-  4 => string 'BELGIUM' (length=7)
-  5 => string 'TURKEY' (length=6)
-  6 => string 'ITALY' (length=5)
-
-/var/www/html/index.php:19:
-array (size=7)
-  0 => string 'Ronaldo' (length=7)
-  1 => string 'Messi' (length=5)
-  2 => string 'Benzema' (length=7)
-  3 => string 'Vini jr' (length=7)
-  4 => string 'Kane' (length=4)
-  5 => string 'Rodri' (length=5)
-  6 => string 'Kroos' (length=5)
-
-```
+- Pocketbase : http://localhost:8185/_/#/

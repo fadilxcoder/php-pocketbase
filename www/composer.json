@@ -1,6 +1,6 @@
 {
   "name": "fadil/pocketbase-php",
-  "description": "PHP pocketbase client",
+  "description": "PHP pocketbase client api",
   "authors": [
     {
       "name": "fadilxcoder",
@@ -12,6 +12,8 @@
       "App\\": "src/"
     }
   },
-  "require": {},
+  "require": {
+    "ramsey/uuid": "^4.7"
+  },
   "require-dev": {}
 }
