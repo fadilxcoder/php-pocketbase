@@ -41,7 +41,6 @@ try {
 
 $method = $_SERVER['REQUEST_METHOD']; # GET | POST | PUT | DELETE
 $requestUri = $_SERVER['REQUEST_URI']; # '/index.php/xxxxxxxx'
-# $route = preg_replace('#^/index.php/#', '', $requestUri);
 $parts = preg_split('/[\/?]/', $requestUri);
 $route = $parts[2];
 
@@ -60,8 +59,11 @@ switch(true) {
     case ('POST' === $method && 'countries' === $route): # POST /countries
         echo json_encode(insertCountries());
         break;
-    case ('PATCH' === $method && 'countries' === $route && isset($queryParams['id'])): # PATCH /countries
+    case ('PATCH' === $method && 'countries' === $route && isset($queryParams['id'])): # PATCH /countries?id=xxxx
         echo json_encode(updateCountries($queryParams['id']));
+        break;
+    case ('DELETE' === $method && 'countries' === $route && isset($queryParams['id'])): # DELETE /countries?id=xxxx
+        echo json_encode(deleteCountries($queryParams['id']));
         break;
     default :
         $response = [
@@ -145,7 +147,7 @@ function insertCountries(): array {
 }
 
 /**
- * PATCH /countries
+ * PATCH /countries?id=xxxx
  */
 function updateCountries(string $id): array {
     global $pocketbase;
@@ -166,6 +168,39 @@ function updateCountries(string $id): array {
             'status' => 200,
             'statusText' => 'Record updated successfully.',
             'payload' => $responseArr
+        ];
+    } catch (Exception $e) {
+        http_response_code($e->getCode());
+        $response = [
+            'status' => $e->getCode(),
+            'statusText' =>$e->getMessage(),
+        ];
+    }
+
+    return $response;
+}
+
+/**
+ * DELETE /countries?id=xxxx
+ */
+function deleteCountries(string $id): array {
+    global $pocketbase;
+
+    try {
+        $response = $pocketbase->collection('countries')->delete($id);
+
+        if(!empty($response)) {
+            $responseArr = json_decode($response);
+
+            if (isset($responseArr->code, $responseArr->message)) {
+                throw new Exception($responseArr->message, $responseArr->code);
+            }
+        }
+
+        http_response_code(200);
+        $response = [
+            'status' => 200,
+            'statusText' => 'Record deleted successfully.'
         ];
     } catch (Exception $e) {
         http_response_code($e->getCode());

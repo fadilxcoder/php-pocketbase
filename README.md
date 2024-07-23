@@ -90,3 +90,4 @@ Successfully created file "pb_migrations/1721331064_add_country_code.js"
 
 - App : http://localhost:8085/
 - Pocketbase : http://localhost:8185/_/#/
+- API endpoints : https://web.postman.co/workspace/IFX-Dev.~66822cb4-279f-4aeb-8486-23506f9657f0/collection/18647677-2f88e286-0b5b-49d8-9f2f-fba7616f85c4 

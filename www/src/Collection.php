@@ -25,6 +25,7 @@ class Collection
         return json_decode($response, JSON_FORCE_OBJECT);
     }
 
+    // TODO ¯\_(ツ)_/¯
     public function upload(string $recordId, string $field, string $filepath): void
     {
         $ch = curl_init($this->url . "/api/collections/".$this->collection."/records/" . $recordId);
@@ -80,9 +81,9 @@ class Collection
         return $this->doRequest($this->url . "/api/collections/" . $this->collection . "/records/" . $recordId, 'PATCH', $bodyParams);
     }
 
-    public function delete(string $recordId, array $queryParams = []): void
+    public function delete(string $recordId, array $queryParams = []): string
     {
-        $this->doRequest($this->url . "/api/collections/" . $this->collection . "/records/" . $recordId, 'DELETE');
+        return $this->doRequest($this->url . "/api/collections/" . $this->collection . "/records/" . $recordId, 'DELETE');
     }
 
     public function getOne(string $recordId, array $queryParams = []): array
