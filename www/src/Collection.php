@@ -72,13 +72,12 @@ class Collection
 
     public function create(array $bodyParams = [], array $queryParams = []): string
     {
-        return $this->doRequest($this->url . "/api/collections/" . $this->collection . "/records", 'POST', ($bodyParams));
+        return $this->doRequest($this->url . "/api/collections/" . $this->collection . "/records", 'POST', $bodyParams);
     }
 
-    public function update(string $recordId, array $bodyParams = [], array $queryParams = []): void
+    public function update(string $recordId, array $bodyParams = [], array $queryParams = []): string
     {
-        // Todo bodyParams equals json, currently workaround
-        $this->doRequest($this->url . "/api/collections/" . $this->collection . "/records/" . $recordId, 'PATCH', json_encode($bodyParams));
+        return $this->doRequest($this->url . "/api/collections/" . $this->collection . "/records/" . $recordId, 'PATCH', $bodyParams);
     }
 
     public function delete(string $recordId, array $queryParams = []): void

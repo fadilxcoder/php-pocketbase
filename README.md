@@ -50,8 +50,15 @@ $pb->collection(collectionIdOrName)->create(array  $bodyParams = [], array $quer
 ```
 
 **Updates an existing record by its id.**
+
+URL : `?id=y0eirw25xxxxxxxx`
 ```php
 $pb->collection(collectionIdOrName)->update(string $recordId, array $bodyParams = [],array $queryParams = []);
+```
+```json
+{
+  "name" : "Lebanon"
+}
 ```
 
 **Deletes a single record by its id.**

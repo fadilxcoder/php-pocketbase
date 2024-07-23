@@ -41,7 +41,14 @@ try {
 
 $method = $_SERVER['REQUEST_METHOD']; # GET | POST | PUT | DELETE
 $requestUri = $_SERVER['REQUEST_URI']; # '/index.php/xxxxxxxx'
-$route = preg_replace('#^/index.php/#', '', $requestUri);
+# $route = preg_replace('#^/index.php/#', '', $requestUri);
+$parts = preg_split('/[\/?]/', $requestUri);
+$route = $parts[2];
+
+if (isset(parse_url($requestUri)['query'])) {
+    $queryParams = parse_url($requestUri)['query'];
+    parse_str($queryParams, $queryParams);
+}
 
 switch(true) {
     case ('GET' === $method && 'countries' === $route): # GET /countries
@@ -52,6 +59,9 @@ switch(true) {
         break;
     case ('POST' === $method && 'countries' === $route): # POST /countries
         echo json_encode(insertCountries());
+        break;
+    case ('PATCH' === $method && 'countries' === $route && isset($queryParams['id'])): # PATCH /countries
+        echo json_encode(updateCountries($queryParams['id']));
         break;
     default :
         $response = [
@@ -121,6 +131,40 @@ function insertCountries(): array {
         $response = [
             'status' => 201,
             'statusText' => 'Record created successfully.',
+            'payload' => $responseArr
+        ];
+    } catch (Exception $e) {
+        http_response_code($e->getCode());
+        $response = [
+            'status' => $e->getCode(),
+            'statusText' =>$e->getMessage(),
+        ];
+    }
+
+    return $response;
+}
+
+/**
+ * PATCH /countries
+ */
+function updateCountries(string $id): array {
+    global $pocketbase;
+
+    try {
+        $content = json_decode(file_get_contents('php://input'));
+        $response = $pocketbase->collection('countries')->update($id, [
+            'name' => $content->name
+        ]);
+        $responseArr = json_decode($response);
+
+        if (isset($responseArr->code, $responseArr->message)) {
+            throw new Exception($responseArr->message, $responseArr->code);
+        }
+
+        http_response_code(200);
+        $response = [
+            'status' => 200,
+            'statusText' => 'Record updated successfully.',
             'payload' => $responseArr
         ];
     } catch (Exception $e) {
